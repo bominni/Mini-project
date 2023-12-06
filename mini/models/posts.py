@@ -1,6 +1,4 @@
 from pydantic import BaseModel
-from typing import List
-
 class Post(BaseModel):
     id: int
     title: str
