@@ -17,7 +17,11 @@ async def create_post(body: Post = Body(...)) -> dict:
         "message": "게시물이 생성되었습니다."
     }
 
-@post_router.delete("/{id}")
+@post_router.patch("/change/{id}")
+async def change_post(id: int) -> dict:
+    print("")
+
+@post_router.delete("/delete/{id}")
 async def delete_post(id: int) -> dict:
     for post in posts:
         if post in posts:
