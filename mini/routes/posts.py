@@ -1,24 +1,23 @@
-from fastapi import APIRouter, Body, HTTPException, status
+from fastapi import APIRouter, Body, HTTPException, status, Depends
 from models.posts import Post
+from database.connection import get_db
 from typing import List
 
 post_router = APIRouter()
 
-posts = []
-
 @post_router.get("/list", response_model=List[Post])
-async def retrieve_post() -> List[Post]:
-    return posts
+async def retrieve_post(post: Post) -> List[Post]:
+    return post
 
 @post_router.post("/create")
-async def create_post(body: Post = Body(...)) -> dict:
-    posts.append(dict(body))
+async def create_post(post: Post, db=Depends(get_db)):
+    db.append(dict(post))
     return {
         "message": "게시물이 생성되었습니다."
     }
 
 @post_router.patch("/change")
-async def change_post(body: Post = Body(...)) -> dict:
+async def change_post(post: Post, db=Depends(get_db)):
     for post in posts:
         if body["id"] == post["id"]:
             post["title"] = body["title"]

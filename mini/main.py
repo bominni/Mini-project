@@ -7,7 +7,7 @@ import uvicorn
 
 app = FastAPI()
 
-Base.metadata.create_all(engine)
+Base.metadata.create_all(bind=engine)
 
 app.include_router(user_router, prefix="/user")
 app.include_router(post_router, prefix="/post")
